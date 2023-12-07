@@ -1,0 +1,26 @@
+Package: EpisodeR
+Title: Provides the most recent version of the Academic Freedom Decline and Growth Episodes dataset, but can also be used to generate all types episodes datasets
+Version: 0.0.0.9000
+Authors@R: 
+    person("Lars", "Lott", , "lars.lott@fau.de", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9196-8783"))
+Description: This package contains the Academic Freedom Decline and Growth Episodes dataset and
+             offers some additional functions to work with AFI Growth and Decline Episodes dataset.
+Depends: R (>= 3.5.0)
+Imports:
+  Rcpp,
+  dplyr,
+  tidyr,
+  ggplot2,
+  stringr,
+  hablar,
+  plm,
+  tidyselect
+Suggests:
+    testthat (>= 3.0.0)
+LinkingTo: Rcpp
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Config/testthat/edition: 3
