@@ -10,4 +10,10 @@
 # vdem
 
 vdem <- readRDS("C:/Users/ba72loko/projects/data/V-Dem 13 Final/V-Dem-CY-FullOthers_R_v13/V-Dem-CY-Full+Others-v13.rds")
-save("vdem", file = "data/vdem.RData")
+
+save("vdem", file = "data/vdem.RData", compress = "xz")
+
+# document and check new package version
+devtools::document()
+devtools::check()
+

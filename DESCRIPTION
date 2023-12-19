@@ -7,6 +7,7 @@ Authors@R:
 Description: This package contains the Academic Freedom Decline and Growth Episodes dataset and
              offers some additional functions to work with AFI Growth and Decline Episodes dataset.
 Depends: R (>= 3.5.0)
+LazyData: true
 Imports:
   Rcpp,
   dplyr,
@@ -24,5 +25,6 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3
-URL: https://github.com/LarsLott/EpisodeR
+URL: https://github.com/LarsLott/EpisodeR,
+    https://larslott.github.io/EpisodeR/
 BugReports: https://github.com/LarsLott/EpisodeR/issues

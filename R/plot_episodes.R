@@ -3,17 +3,15 @@
 #' `plot_episodes` plots growth and decline episodes in a specific variable
 #'  over time for a selected country and a selected time frame.
 #'
-#' This function is a wrapper for [ggplot2:ggplot()] and produces a plot that shows
+#' This function is a wrapper for ggplot() and produces a plot that shows
 #' growth and decline episodes for a selected country over time.
-#' The function calls the [EpisodeR:get_episode_wo_CI()] function to identify episodes, but without controlling for overlapping confidence intervals
+#' The function calls the EpisodeR:get_episode_wo_CI() function to identify episodes, but without controlling for overlapping confidence intervals
 #'
 #' @param years Vector with two numeric values indicating the minimum and maximum year to be plotted.
 #'
 #' @param country Character vector containing the country for which episodes should be shown. Only entries from the
 #' country_name column in the V-Dem data set are accepted.
 #'
-#' @param data The data based on which the episodes are identified.
-#' By default the most recent vdem data set.
 #'
 #' @param variable What is the variable the dataset looks for
 #'
@@ -28,7 +26,7 @@
 #' @param year_turn  What is the amount of annual change in the opposite direction to trigger the termination of an episode?
 #' An episode may end when the case suddenly moves in the opposite direction.
 #'
-#' @return The output of this function is a [ggplot2:ggplot()] object with the number/share of autocratization episodes per year.
+#' @return The output of this function is a ggplot() object with the number/share of autocratization episodes per year.
 #'
 #' @import ggplot2
 #' @import dplyr
