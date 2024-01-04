@@ -9,17 +9,14 @@ Description: This package contains the Academic Freedom Decline and Growth Episo
 Depends: R (>= 3.5.0)
 LazyData: true
 Imports:
-  Rcpp,
   dplyr,
   tidyr,
   ggplot2,
   stringr,
   hablar,
   plm,
-  tidyselect
 Suggests:
     testthat (>= 3.0.0)
-LinkingTo: Rcpp
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

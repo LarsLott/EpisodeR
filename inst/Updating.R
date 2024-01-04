@@ -1,3 +1,4 @@
+## copid and adapted from ERT package ##
 
 # this script is about the yearly updating process of the package
 # (vdem, codebook)

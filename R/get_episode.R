@@ -1,28 +1,34 @@
 #' Get episodes of variable growth and decline episodes
 #'
 #' `get_episode` returns a data.frame identifying decline and growth episodes
-#' of a variable in which this variable systematically grow or decline in respective country-years. This function controls for overlapping
-#' confidence /uncertainty intervals as suggested by Pelke, Lars & Aurel Croissant (2021). Conceptualizing and Measuring Autocratization Episodes.
+#' of an index variable in which this variable systematically grow or decline in respective country-years. This function controls for overlapping
+#' confidence/uncertainty intervals as suggested by Pelke, Lars & Aurel Croissant (2021). Conceptualizing and Measuring Autocratization Episodes.
 #' Swiss Political Science Review, 27 (2), 434-448. doi:10.1111/spsr.12437
 #'
 #' \emph{increase_episode} is an umbrella term for any movement towards more academic freedom that is statistically significant, i.e. outside of the uncertainty interval
 #' \emph{decline_episode} is an umbrella term for any movement away from academic freedom that is statistically significant, i.e. outside of the uncertainty interval
 #'
 #' @param data The data based on which the episodes are identified.
-#' By default the most recent vdem data set.
+#' By default the most recent vdem data set is loaded.
 #'
-#' @param variable What is the variable the dataset looks for
+#' @param variable What is the index variable the dataset looks for. By default, the v2xca_academ variable is loaded.
 #'
 #' @param start_incl What is the minimum annual change of a variable necessary to trigger an episode? This is the absolute value of the first difference
-#' in the variable required for the onset of either a decline or growth episode
+#' in the variable required for the onset of either a decline or growth episode.
 #'
-#' @param cum_incl What is the minimum amount of total change on the variable necessary to constitute a manifest episode?
-#' A potential episode might be a period involving any amount of changes over a period following an annual change equal
+#' @param cum_incl What is the minimum amount of total change on the index variable necessary to constitute a growth or decline episode?
+#' A potential episode might be a period involving any amount of changes over a period of four years following an annual change equal
 #' to the start inclusion (e.g. 0.01). To identify substantial changes, we set a cumulative inclusion threshold.
-#' This is the absolute value of the total amount of change needed on the EDI to be considered manifest.
+#' This is the absolute value of the total amount of change needed on the index variable to be considered manifest.
 #'
-#' @param year_turn  What is the amount of annual change in the opposite direction to trigger the termination of an episode?
+#' @param year_turn What is the amount of annual change in the opposite direction to trigger the termination of an episode?
 #' An episode may end when the case suddenly moves in the opposite direction.
+#'
+#' The terms @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
+#' from the ERT-package available at https://github.com/vdeminstitute/ERT. In the function below, all parts of code that was copied and adapted from the ERT package are tagged.
+#' The original ERT package enable users to set additional parameters to customize their definitions of what constitutes an episode of change. These additional parameters are
+#' the tolerance parameter, and the cum_turn parameter. In this package, episodes are considered as an episode as long as there is continued increase/decline,
+#' while allowing up to 4 years of temporary stagnation. This period of 4 years cannot be set to another value of temporary stagnation (compare the more flexible ERT package).
 #'
 #' @return A data frame specifying episodes of growth and decline of a specific variable and their outcomes in the most recent V-Dem data set.
 #' For further details and explanations on episodes and outcomes please check the respective journal article:
@@ -45,8 +51,10 @@ get_episode <- function(data = EpisodeR::vdem,
 
   tolerance = 4
 
+  ## copied and adapted from ERT package ##
+
   if(year_turn == 0)
-    print("You set year_turn = 0. Did you mean to do this? Doing so means an episode ends when it experiences a year of no annual change on the EDI. Perhaps, instead, you meant to set its value equal to cum_turn. See p.3 of the ERT codebook.")
+    print("You set year_turn = 0. Did you mean to do this? Doing so means an episode ends when it experiences a year of no annual change on the index variable.")
 
 
   ### DATA CLEANING AND PREP ###
@@ -79,6 +87,8 @@ get_episode <- function(data = EpisodeR::vdem,
                   gapend = ifelse(!is.na(gapend2) & year > gapend1 & year <= gapend2, gapend2, gapend),
                   gapstart = ifelse(!is.na(gapend3) & year > gapend2 & year <= gapend3, gapstart3, gapstart),
                   gapend = ifelse(!is.na(gapend3) & year > gapend2 & year <= gapend3, gapend3, gapend)) %>%
+
+    ## own code from the author of this package ##
 
     ### CODING THE DECLINE EPISODES of Academic Freedom ###
 
@@ -126,7 +136,7 @@ get_episode <- function(data = EpisodeR::vdem,
       mutate(group_id = cumsum(start_auto != lag(start_auto, default = FALSE))) %>% # group_id for each autocra_period
       mutate(episode_id = str_c(country_name, group_id, sep = "_")) %>%
 
-    # second step: create dummy in which decline was greater than Z
+      # second step: create dummy in which decline was greater than Z
 
       group_by(episode_id) %>%
       mutate(last_VAR = last(get(variable)),
@@ -147,7 +157,9 @@ get_episode <- function(data = EpisodeR::vdem,
       dplyr::mutate(decline_episode_id = ifelse(decline_episode!=1, NA, decline_episode_id)) %>%
       group_by(decline_episode_id) %>%
 
-      # generate the initial end year for the episode (note:  we have to filter out the stasis years that C++ gives us, but we will do this later):
+      ## copied and adapted from ERT package ##
+
+      # generate the initial end year for the episode:
       dplyr::mutate(decline_episode_end_year = ifelse(decline_episode==1, last(year), NA),
                     decline_episode_uncertain = ifelse(decline_episode==1 & codingend-decline_episode_end_year<tolerance, 1, 0),
                     # generate the start year for the potential episode as the first year after the pre-episode year
@@ -167,7 +179,7 @@ get_episode <- function(data = EpisodeR::vdem,
 
       # code termination type of decline episode
 
-      # decline episodes end when one of five things happens:
+      # decline episodes end when there is a cumulative drop:
       # 1. cumulative drop: the case experiences a gradual drop <= cum_turn over the tolerance period (or less)
 
 
@@ -178,11 +190,9 @@ get_episode <- function(data = EpisodeR::vdem,
                     # here we just replace with NA non-episode years
                     last_ch_year = ifelse(decline_episode==0, NA, last_ch_year))
 
-    # merge these new columns to our full.df
-    full.df <- full.df %>%
+      # merge these new columns to our full.df
+      full.df <- full.df %>%
 
-      # now we can finally code our termination variable
-      # first we group by episode
       dplyr::group_by(decline_episode_id) %>%
       dplyr::arrange(decline_episode_id, year) %>%
       # first, lets fill everything in for the episode
@@ -197,10 +207,12 @@ get_episode <- function(data = EpisodeR::vdem,
       # code censored/ongoing episodes for survival analysis, new dummy variable
       dplyr::mutate(decline_episode_censored = ifelse(decline_episode==1 & decline_episode_uncertain == 1, 1, 0)) %>%
 
+      ## own code from the author of this package ##
+
       ### CODING THE INCREASE EPISODES of Academic Freedom ###
 
       dplyr::group_by(country_text_id) %>%
-      mutate(VAR_1 = get(variable) - lag(get(variable), 1), # hier entsprechende Varibale einsetzen
+      mutate(VAR_1 = get(variable) - lag(get(variable), 1),
              start_auto = ifelse(VAR_1>=start_incl, 1, NA),
              min_1 = lead(VAR_1, 1),
              min_2 = lead(VAR_1, 2),
@@ -265,7 +277,9 @@ get_episode <- function(data = EpisodeR::vdem,
       dplyr::mutate(increase_episode_id = ifelse(increase_episode!=1, NA, increase_episode_id)) %>%
       group_by(increase_episode_id) %>%
 
-      # generate the initial end year for the episode (note:  we have to filter out the stasis years that C++ gives us, but we will do this later):
+      ## copied and adapted from ERT package ##
+
+      # generate the initial end year for the episode
       dplyr::mutate(increase_episode_end_year = ifelse(increase_episode==1, last(year), NA),
                     increase_episode_uncertain = ifelse(increase_episode==1 & codingend-increase_episode_end_year<tolerance, 1, 0),
                     # generate the start year for the potential episode as the first year after the pre-episode year
@@ -285,12 +299,9 @@ get_episode <- function(data = EpisodeR::vdem,
 
       # code termination type of decline episode
 
-      # decline episodes end when one of five things happens:
+      # decline episodes end when there is a cumulative drop
       # 1. cumulative drop: the case experiences a gradual drop <= cum_turn over the tolerance period (or less)
 
-
-      # first find the last positive change on EDI equal to the start_incl parameter
-      # this will become the new end of episodes at some point, once we clean things up
       dplyr::group_by(increase_episode_id) %>%
       dplyr::mutate(last_ch_year = max(hablar::s(ifelse(get(variable)-dplyr::lag(get(variable), n=1)>=start_incl, year, NA))),
                     # here we just replace with NA non-episode years
@@ -301,14 +312,12 @@ get_episode <- function(data = EpisodeR::vdem,
       dplyr::mutate(increase_episode_censored = ifelse(increase_episode==1 & increase_episode_uncertain == 1, 1, 0))
 
 
+    ## own code by the author of this package ##
+
     # merge these new columns to our full.df
     full.df <- full.df %>%
-
-      # now we can finally code our termination variable
-      # first we group by episode
       dplyr::group_by(increase_episode_id) %>%
       dplyr::arrange(increase_episode_id, year) %>%
-      # first, lets fill everything in for the episode
       dplyr::ungroup() %>%
       dplyr::mutate(increase_episode_id = ifelse(increase_episode==1, paste(country_text_id, increase_episode_start_year, increase_episode_end_year, sep = "_"), NA),
                     increase_sum = ifelse(increase_episode!=1, NA, increase_sum),

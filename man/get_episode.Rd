@@ -14,20 +14,26 @@ get_episode(
 }
 \arguments{
 \item{data}{The data based on which the episodes are identified.
-By default the most recent vdem data set.}
+By default the most recent vdem data set is loaded.}
 
 \item{start_incl}{What is the minimum annual change of a variable necessary to trigger an episode? This is the absolute value of the first difference
-in the variable required for the onset of either a decline or growth episode}
+in the variable required for the onset of either a decline or growth episode.}
 
-\item{cum_incl}{What is the minimum amount of total change on the variable necessary to constitute a manifest episode?
-A potential episode might be a period involving any amount of changes over a period following an annual change equal
+\item{cum_incl}{What is the minimum amount of total change on the index variable necessary to constitute a growth or decline episode?
+A potential episode might be a period involving any amount of changes over a period of four years following an annual change equal
 to the start inclusion (e.g. 0.01). To identify substantial changes, we set a cumulative inclusion threshold.
-This is the absolute value of the total amount of change needed on the EDI to be considered manifest.}
+This is the absolute value of the total amount of change needed on the index variable to be considered manifest.}
 
 \item{year_turn}{What is the amount of annual change in the opposite direction to trigger the termination of an episode?
-An episode may end when the case suddenly moves in the opposite direction.}
+An episode may end when the case suddenly moves in the opposite direction.
 
-\item{variable}{What is the variable the dataset looks for}
+The terms @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
+from the ERT-package available at https://github.com/vdeminstitute/ERT. In the function below, all parts of code that was copied and adapted from the ERT package are tagged.
+The original ERT package enable users to set additional parameters to customize their definitions of what constitutes an episode of change. These additional parameters are
+the tolerance parameter, and the cum_turn parameter. In this package, episodes are considered as an episode as long as there is continued increase/decline,
+while allowing up to 4 years of temporary stagnation. This period of 4 years cannot be set to another value of temporary stagnation (compare the more flexible ERT package).}
+
+\item{variable}{What is the index variable the dataset looks for. By default, the v2xca_academ variable is loaded.}
 }
 \value{
 A data frame specifying episodes of growth and decline of a specific variable and their outcomes in the most recent V-Dem data set.
@@ -36,8 +42,8 @@ Lott, Lars (2023). Academic Freedom Growth and Decline Episodes. Higher Educatio
 }
 \description{
 \code{get_episode} returns a data.frame identifying decline and growth episodes
-of a variable in which this variable systematically grow or decline in respective country-years. This function controls for overlapping
-confidence /uncertainty intervals as suggested by Pelke, Lars & Aurel Croissant (2021). Conceptualizing and Measuring Autocratization Episodes.
+of an index variable in which this variable systematically grow or decline in respective country-years. This function controls for overlapping
+confidence/uncertainty intervals as suggested by Pelke, Lars & Aurel Croissant (2021). Conceptualizing and Measuring Autocratization Episodes.
 Swiss Political Science Review, 27 (2), 434-448. doi:10.1111/spsr.12437
 }
 \details{
