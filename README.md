@@ -6,7 +6,9 @@
 An R package to load, explore, and work with any index variable in the V-Dem data set - a project of the [V-Dem Institute](https://www.v-dem.net/) - to built episods of growth and decline in a specific index variable. This package was used for the Academic Freedom Growth and Decline Episodes data set introduced in Lott, Lars (2023). *Academic Freedom Growth and Decline Episodes*. Higher Education. DOI: https://doi.org/10.1007/s10734-023-01156-z.
 
 #### Load, explore, and work the episodes data sets ####
-* Note: for non-R users I provide the *Academic Freedom Growth and Decline Episodes data set* in this GitHub project as a .csv file. 
+* Note: for non-R users I provide the *Academic Freedom Growth and Decline Episodes data set* in this GitHub project as a .csv file.
+  * A [csv file](https://github.com/LarsLott/EpisodeR/blob/master/inst/episode_with_uncertainty_interval_test.csv) controlling for statistical uncertainty in the growth and decline episodes 
+  * A [csv-file](https://github.com/LarsLott/EpisodeR/blob/master/inst/episode_without_uncertainty_interval_test.csv) not controlling for statistical uncertainty in the growth and decline episodes
 * RELEASE: Academic Freedom Growth and Decline Episodes data set 13.0 is based on the V-Dem dataset v13. In the following years, updated *Academic Freedom Growth and Decline Episodes data set* will be provided once a year when updated V-Dem is published. 
 
 #### Functions ####
