@@ -1,16 +1,15 @@
 
 # get_episode
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-<!-- badges: start -->
-<!-- badges: end -->
+<!-- get_episode.md is generated from get_episode.Rmd. Please edit that file -->
 
 In the context of this package, the `get_episode()` function returns a
 data.frame in R implementing the episode approach to measure growth and
 decline episodes of a V-Dem index variable as suggested in Lott (2023).
 By doing so, this `get_episode()` function differs from the approach
 implemented in the “Episode of Regime Transformation” approach as
-published in Maerz et al. (2023) and available at Institute (2023).
+published in Maerz et al. (2023) and available at V-Dem Institute
+(2023).
 
 ## The `get_episode()` function
 
@@ -42,6 +41,14 @@ head(df)
 #> #   decline_episode_censored <dbl>
 ```
 
+The `get_episode` function considers measurement uncertainty in the
+measurement of the index variables. By doing so, `get_episode` function
+controls for overlapping uncertainty intervals (before the start of an
+episode and at the end of an episode). However, when not considering
+measurement uncertainty in the measurement of episodes, the cutoff point
+needs to be more demanding to reduce the risks of measurement error.
+User than should use the `get_episode_wo_CI` function form this package.
+
 By using the default values, users get the data.frame presented in Lott
 (2023). However, users are also able to customize the default parameters
 and use other V-Dem index variables than the Academic Freedom Index.
@@ -65,7 +72,7 @@ was created for working with V-Dem data.
 #head(df12)
 ```
 
-### `start_incl`
+### `start_incl`: Set the paramater that is necessary to trigger the start of an episode
 
 The `start_incl` argument enable users to change the parameter that is
 necessary to trigger the start of an episode. This is the absolute value
@@ -96,7 +103,7 @@ head(df)
 #> #   decline_episode_censored <dbl>
 ```
 
-### `cum_incl`
+### `cum_incl`: Set the minimum amount of total change on the index variable necessary to constitute a growth or decline episode
 
 The `cum_incl` argument allows for changing the minimum amount of total
 change on the index variable necessary to constitute a growth or decline
@@ -131,11 +138,11 @@ head(df)
 #> #   decline_episode_censored <dbl>
 ```
 
-### `year_turn`
+### `year_turn`: Set the parameter that is necessary to trigger the end of an episode
 
 The `year_turn` argument enable users to change the parameter that is
 necessary to trigger the end of an episode. By default, this value is
-set to 0.03. The `get_episode()` function terminate an episode when
+set to 0.03. The `get_episode()` function terminates an episode when
 there is a temporary stagnation on the AFI with no further
 increase/decline of `start_incl` points in four years or when the AFI
 decreases/increases by `year_turn` points, from one year to the next.
@@ -161,7 +168,7 @@ head(df)
 #> #   decline_episode_censored <dbl>
 ```
 
-### `variable`
+### `variable`: Change the index variable that constitutes episodes of change
 
 The `variable` argument enable users to get episodes for any V-Dem index
 variable, e.g. the Liberal Democracy Index (LDI), the Vertical
@@ -193,14 +200,42 @@ head(df)
 
 ## Comparison to `get_ert()` function from the ERT package
 
+The ERT package from V-Dem Institute (2023) differs from this package in
+important ways. The ERT package is computationally more efficient and
+more flexible in what constitutes an episode. In was one important
+source of code for this package and the work done by Seraphine Maerz,
+Amanda Edgell, Matthew Wilson, Sebastian Hellmeier, and Staffan I.
+Lindberg inspired my work for this package. However, two important
+drawbacks come with the ERT package. It does not enable users to search
+for episode of regime transformation / change other than the Electoral
+Democracy Score. Secondly, the ERT package does not control for
+overlapping uncertainty intervals (before the start of an episode and at
+the end of an episode). These two drawbacks are resolved in this
+package, while it comes with another important drawbacks: It is
+computationally inefficient and less flexible in terms of episode
+termination and tolerance for temporary stagnation.
+
+The `EpisodeR` package copied and adapted some code parts of the ERT
+package but does not use the most important part of the ERT package to
+estimate episode of change data.
+
+### Differences:
+
+- The ERT package use C++ language to find episodes of regime
+  transformation, while this package use some loops in R for finding
+  these episodes of change in an index variable. The `EpisodeR` package
+  is computationally more inefficient compared to the C++ solution from
+  the ERT package.
+- The ERT package enable users to consider a specific number of years as
+  tolerance for stasis or a gradual movement in the opposite direction.
+  By default it is set to five years. In the `EpisodeR` package users
+  cannot change the tolerance parameter and there is a temporary stasis
+  on the specific variable with no further increase/decline of
+  `start_incl` points in four years.
+
+## References
+
 <div id="refs" class="references csl-bib-body hanging-indent">
-
-<div id="ref-institute_vdeminstituteert_2023" class="csl-entry">
-
-Institute, V.-Dem. 2023. “Vdeminstitute/ERT.”
-<https://github.com/vdeminstitute/ERT>.
-
-</div>
 
 <div id="ref-lott_academic_2023" class="csl-entry">
 
@@ -215,6 +250,14 @@ Lott, Lars. 2023. “Academic Freedom Growth and Decline Episodes.”
 Maerz, Seraphine F., Amanda B. Edgell, Matthew C. Wilson, Sebastian
 Hellmeier, and Staffan I. Lindberg. 2023. “Episodes of Regime
 Transformation.” *Journal of Peace Research*.
+<https://doi.org/10.1177/00223433231168192>.
+
+</div>
+
+<div id="ref-institute_vdeminstituteert_2023" class="csl-entry">
+
+V-Dem Institute. 2023. “Vdeminstitute/ERT.”
+<https://github.com/vdeminstitute/ERT>.
 
 </div>
 

@@ -14,7 +14,7 @@
 #'
 #' @param variable What is the index variable the dataset looks for. By default, the v2xca_academ variable is loaded.
 #'
-#' @param var_label What is the variable laben that should be plotted? By default, the label is "Academic Freedom Index".
+#' @param var_label What is the variable label that should be plotted? By default, the label is "Academic Freedom Index".
 #'
 #' @param start_incl What is the minimum annual change of a variable necessary to trigger an episode? This is the absolute value of the first difference
 #' in the variable required for the onset of either a decline or growth episode
@@ -70,13 +70,13 @@ plot_episodes <- function(years = c(1900, 2022),
   if(length(country) == 0)
     stop("Error: No country selected")
 
-  if(!country %in% data$country_name)
+  if(!country %in% df$country_name)
     stop("Error: Country not found")
 
   if(max(years) < min(df %>% filter(country_name==country) %>% pull(year)) | max(years)>max(df %>% filter(country_name==country) %>% pull(year)))
     stop("Error: Data not available for time range")
 
-  year <- country_name <- increase_episode <- decline_episode <- overlap_df <- get(variable) <-
+  year <- country_name <- increase_episode <- decline_episode <- overlap_df <- variable <-
     ep_type <- episode <- vdem <- increase_episode_start_year <-increase_episode_end_year <-
     decline_episode_start_year <- decline_episode_end_year <- decline_episode_id <- increase_episode_id <- countries <- NULL
 
@@ -88,7 +88,7 @@ plot_episodes <- function(years = c(1900, 2022),
     df_year <- df_year %>%
       dplyr::mutate(overlap_df = ifelse(!is.na(decline_episode_id) & !is.na(increase_episode_id), "overlaps", NA)) %>%
       tidyr::pivot_longer(cols = c(decline_episode_id, increase_episode_id, overlap_df), names_to = "ep_type", values_to = "episode") %>%
-      dplyr::select(country_name, year, matches(variable, ignore.case = FALSE), ep_type, episode,
+      dplyr::select(country_name, year, all_of(variable), ep_type, episode,
                     decline_episode_start_year, decline_episode_end_year,
                     increase_episode_start_year, increase_episode_end_year) %>%
       dplyr::filter((ep_type == "increase_episode_id") |
@@ -104,7 +104,7 @@ plot_episodes <- function(years = c(1900, 2022),
     df_var <- df %>%
       filter(country_name == country, between(year, min(years), max(years))) %>%
       ungroup() %>%
-      select(year, matches(variable, ignore.case = FALSE))
+      select(year, all_of(variable))
 
     if(max(df_year$overlap_df) > 1) {
       print("Warning: Some episodes overlap!")
@@ -127,14 +127,14 @@ plot_episodes <- function(years = c(1900, 2022),
     if (isTRUE(length(which(df_year$ep_type == "increase_episode_id")) > 0)){
 
       if (any(df_year$year%in%c(df_year$increase_episode_start_year))) {
-        p <- p +  geom_point(data = df_year, aes(x = year, y = ifelse(year == increase_episode_start_year, get(varibale), NA)), shape = 2, alpha = 0.75)
+        p <- p +  geom_point(data = df_year, aes(x = year, y = ifelse(year == increase_episode_start_year, get(variable), NA)), shape = 2, alpha = 0.75)
 
       } else {
         p
       }
 
       if (any(df_year$year%in%c(df_year$increase_episode_end_year))) {
-        p <- p +geom_point(data = df_year, aes(x = year, y = ifelse(year == increase_episode_end_year, get(varibale), NA)), shape = 17, alpha = 0.75)
+        p <- p +geom_point(data = df_year, aes(x = year, y = ifelse(year == increase_episode_end_year, get(variable), NA)), shape = 17, alpha = 0.75)
       } else {
         p
       }
@@ -143,12 +143,12 @@ plot_episodes <- function(years = c(1900, 2022),
     if (isTRUE(length(which(df_year$ep_type == "decline_episode_id")) > 0)) {
 
       if (any(df_year$year%in%c(df_year$decline_episode_start_year))){
-        p <- p +  geom_point(data = df_year, aes(x = year, y = ifelse(year == decline_episode_start_year, get(varibale), NA)), shape = 1, alpha = 0.75)
+        p <- p +  geom_point(data = df_year, aes(x = year, y = ifelse(year == decline_episode_start_year, get(variable), NA)), shape = 1, alpha = 0.75)
       } else {
         p
       }
       if (any(df_year$year%in%c(df_year$decline_episode_end_year))){
-        p<- p+ geom_point(data = df_year, aes(x = year, y = ifelse(year == decline_episode_end_year, get(varibale), NA)), shape = 16, alpha = 0.75)
+        p<- p+ geom_point(data = df_year, aes(x = year, y = ifelse(year == decline_episode_end_year, get(variable), NA)), shape = 16, alpha = 0.75)
       } else {
         p
       }
@@ -162,7 +162,7 @@ plot_episodes <- function(years = c(1900, 2022),
     df_select <- df %>%
       filter(country_name == country, between(year, min(years), max(years))) %>%
       ungroup() %>%
-      select(year, matches(variable, ignore.case = FALSE))
+      select(year, all_of(variable))
 
     p <-ggplot2::ggplot() +
       geom_line(data = df_select, aes(x = as.numeric(year), y = get(variable)), alpha = 0.35) +
