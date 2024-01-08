@@ -31,7 +31,7 @@ This is the absolute value of the total amount of change needed on the index var
 \item{year_turn}{What is the amount of annual change in the opposite direction to trigger the termination of an episode?
 An episode may end when the case suddenly moves in the opposite direction.
 
-The terms @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
+The terms @param country, @param years, @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
 from the ERT-package available at https://github.com/vdeminstitute/ERT. In the function below, all parts of code that was copied and adapted from the ERT package are tagged.
 The original ERT package enable users to set additional parameters to customize their definitions of what constitutes an episode of change. These additional parameters are
 the tolerance parameter, and the cum_turn parameter. In this package, episodes are considered as an episode as long as there is continued increase/decline,
@@ -39,7 +39,7 @@ while allowing up to 4 years of temporary stagnation. This period of 4 years can
 
 \item{variable}{What is the index variable the dataset looks for. By default, the v2xca_academ variable is loaded.}
 
-\item{var_label}{What is the variable laben that should be plotted? By default, the label is "Academic Freedom Index".}
+\item{var_label}{What is the variable label that should be plotted? By default, the label is "Academic Freedom Index".}
 }
 \value{
 The output of this function is a ggplot() object with the number/share of autocratization episodes per year.

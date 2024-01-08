@@ -12,7 +12,7 @@ bibliography: literature.bib
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/plot_episode-",
+  fig.path = "figures/plot_episode-",
   out.width = "100%"
 )
 ```
@@ -35,7 +35,7 @@ fig1
 
 The `plot_episodes` function does not consider measurement uncertainty in the measurement of the index variables. 
 
-By using the default values, users get a ggplot() object comparable to Figure 3 and 5 presented in @lott_academic_2023. However, users are also able to customize the default parameters and use other V-Dem index variables than the Academic Freedom Index. 
+By using the default values, users get a ggplot() object comparable to Figures 3 and 5 presented in @lott_academic_2023. However, users are also able to customize the default parameters and use other V-Dem index variables than the Academic Freedom Index. 
 
 ## Customizing the `plot_episodes()` function with user-specific parameters and variables ##
 
@@ -52,7 +52,7 @@ fig2
 
 ### `country`: Character vector containing the country for which episodes should be shown ###
 
-Only entries from the country_name column in the V-Dem data set are accepted. The default country is "Sweden". 
+Only entries from the country_name column in the V-Dem dataset are accepted. The default country is "Sweden". 
 
 ```{r}
 fig3 <- plot_episodes(country = c("India"))
@@ -65,22 +65,24 @@ The `variable` argument enable users to get episodes for any V-Dem index variabl
 
 ### `var_label`:  What is the variable label that should be plotted? ###
 
-By default, the label is "Academic Freedom Index". The label should correspond to the `variable` chosen.
+By default, the label is set to "Academic Freedom Index". The label should correspond to the `variable` chosen.
 
 
 ```{r}
-fig4 <- plot_episodes(varibale = "v2x_libdem", var_label = "Liberal Democracy Index", country = "India")
+fig4 <- plot_episodes(variable = "v2x_libdem", var_label = "Liberal Democracy Index", country = "India")
 fig4
 ```
 
 ### `start_incl`: Set the paramater that is necessary to trigger the start of an episode ###
 
-The `start_incl` argument enable users to change the parameter that is necessary to trigger the start of an episode. This is the absolute value of the first difference. By default, this value is set to 0.01. The `get_episode()` function follows the potential episode as long as there is continued increase/decline, while allowing up to four years of temporary stagnation, meaning no further increase/decline of `start_incl` points or more on the respective variable.
+The `start_incl` argument enable users to change the parameter that is necessary to trigger the start of an episode. This is the absolute value of the first difference. By default, this value is set to 0.01. The `plot_episodes()` function follows the potential episode as long as there is continued increase/decline, while allowing up to four years of temporary stagnation, meaning no further increase/decline of `start_incl` points or more on the respective variable.
 
 ### `cum_incl`: Set the minimum amount of total change on the index variable necessary to constitute a growth or decline episode ###
 
-The `cum_incl` argument allows for changing the minimum amount of total change on the index variable necessary to constitute a growth or decline episode? To identify substantive growth and decline episodes, `get_episode_wo_CI()` function calculates the total magnitude of change from the year before the start of an episode to the end of an episode. This cumulative increase/drop is set to 0.1 by default (10% of the total 0–1 scale). It thus records only those manifest growth episodes which add up to a positive change of at least  `cum_incl` and as manifest decline episodes only those which add up to a negative change of at least `cum_incl`.
+The `cum_incl` argument allows for changing the minimum amount of total change on the index variable necessary to constitute a growth or decline episode? To identify substantive growth and decline episodes, `plot_episodes()` function calculates the total magnitude of change from the year before the start of an episode to the end of an episode. This cumulative increase/drop is set to 0.1 by default (10% of the total 0–1 scale). It thus records only those manifest growth episodes which add up to a positive change of at least  `cum_incl` and as manifest decline episodes only those which add up to a negative change of at least `cum_incl`.
 
 ### `year_turn`: Set the parameter that is necessary to trigger the end of an episode ###
 
-The `year_turn` argument enable users to change the parameter that is necessary to trigger the end of an episode. By default, this value is set to 0.03. The `get_episode_wo_CI()` function terminates an episode when there is a temporary stagnation on the AFI with no further increase/decline of `start_incl` points in four years or when the AFI decreases/increases by `year_turn` points, from one year to the next. 
+The `year_turn` argument enable users to change the parameter that is necessary to trigger the end of an episode. By default, this value is set to 0.03. The `plot_episodes()` function terminates an episode when there is a temporary stagnation on the AFI with no further increase/decline of `start_incl` points in four years or when the AFI decreases/increases by `year_turn` points, from one year to the next. 
+
+## References ##

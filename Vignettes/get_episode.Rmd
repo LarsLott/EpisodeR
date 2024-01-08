@@ -12,7 +12,7 @@ bibliography: literature.bib
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/get_episode-1",
+  fig.path = "figures/get_episode-1",
   out.width = "100%"
 )
 ```
@@ -32,7 +32,7 @@ df <- get_episode()
 head(df)
 ```
 
-The `get_episode` function considers measurement uncertainty in the measurement of the index variables. By doing so,  `get_episode` function controls for overlapping uncertainty intervals (before the start of an episode and at the end of an episode). However, when not considering measurement uncertainty in the measurement of episodes, the cutoff point needs to be more demanding to reduce the risks of measurement error. User than should use the `get_episode_wo_CI` function from this package. 
+The `get_episode` function considers measurement uncertainty in the measurement of the index variables. By doing so,  `get_episode` function controls for overlapping uncertainty intervals (before the start of an episode and at the end of an episode). However, when not considering measurement uncertainty in the measurement of episodes, the cutoff point needs to be more demanding to reduce the risks of measurement error. User then should use the `get_episode_wo_CI` function from this package. 
 
 By using the default values, users get the data.frame presented in @lott_academic_2023. However, users are also able to customize the default parameters and use other V-Dem index variables than the Academic Freedom Index. 
 
@@ -52,7 +52,7 @@ The `data` argument is a way to use another V-Dem dataset than the dataset comin
 
 ### `start_incl`: Set the paramater that is necessary to trigger the start of an episode ###
 
-The `start_incl` argument enable users to change the parameter that is necessary to trigger the start of an episode. This is the absolute value of the first difference. By default, this value is set to 0.01. The `get_episode()` function follows the potential episode as long as there is continued increase/decline, while allowing up to four years of temporary stagnation, meaning no further increase/decline of `start_incl` points or more on the respective variable.
+The `start_incl` argument enables users to change the parameter that is necessary to trigger the start of an episode. This is the absolute value of the first difference. By default, this value is set to 0.01. The `get_episode()` function follows the potential episode as long as there is continued increase/decline, while allowing up to four years of temporary stagnation, meaning no further increase/decline of `start_incl` points or more on the respective variable.
 
 ```{r}
 df <- get_episode(start_incl = 0.02)
@@ -61,7 +61,7 @@ head(df)
 
 ### `cum_incl`: Set the minimum amount of total change on the index variable necessary to constitute a growth or decline episode ###
 
-The `cum_incl` argument allows for changing the minimum amount of total change on the index variable necessary to constitute a growth or decline episode? To identify substantive growth and decline episodes, `get_episode()` function calculates the total magnitude of change from the year before the start of an episode to the end of an episode. This cumulative increase/drop is set to 0.1 by default (10% of the total 0–1 scale). It thus records only those manifest growth episodes which add up to a positive change of at least  `cum_incl` and as manifest decline episodes only those which add up to a negative change of at least `cum_incl`.
+The `cum_incl` argument allows for changing the minimum amount of total change on the index variable necessary to constitute a growth or decline episode. To identify substantive growth and decline episodes, the `get_episode()` function calculates the total magnitude of change from the year before the start of an episode to the end of an episode. This cumulative increase/drop is set to 0.1 by default (10% of the total 0–1 scale). It thus records only those manifest growth episodes which add up to a positive change of at least  `cum_incl` and as manifest decline episodes only those which add up to a negative change of at least `cum_incl`.
 
 ```{r}
 ## setting the cumulative inclusion parameter to 0.12 (12% of the total 0-1 scale)
@@ -71,7 +71,7 @@ head(df)
 
 ### `year_turn`: Set the parameter that is necessary to trigger the end of an episode ###
 
-The `year_turn` argument enable users to change the parameter that is necessary to trigger the end of an episode. By default, this value is set to 0.03. The `get_episode()` function terminates an episode when there is a temporary stagnation on the AFI with no further increase/decline of `start_incl` points in four years or when the AFI decreases/increases by `year_turn` points, from one year to the next. 
+The `year_turn` argument enables users to change the parameter that is necessary to trigger the end of an episode. By default, this value is set to 0.03. The `get_episode()` function terminates an episode when there is a temporary stagnation on the AFI with no further increase/decline of `start_incl` points in four years or when the AFI decreases/increases by `year_turn` points, from one year to the next. 
 
 ```{r}
 df <- get_episode(year_turn = 0.05)
@@ -80,7 +80,7 @@ head(df)
 
 ### `variable`: Change the index variable that constitutes episodes of change ###
 
-The `variable` argument enable users to get episodes for any V-Dem index variable, e.g. the Liberal Democracy Index (LDI), the Vertical Accountability Index, and the Liberal Component Index. Users should be extremely cautions in using variables, which are not scaled between 0 and 1, even it is possible to use other variable from the V-Dem universe.  
+The `variable` argument enables users to get episodes for any V-Dem index variable, e.g. the Liberal Democracy Index (LDI), the Vertical Accountability Index, and the Liberal Component Index. Users should be extremely cautions in using variables, which are not scaled between 0 and 1, even it is possible to use other variable from the V-Dem universe.  
 
 ```{r}
 df <- get_episode(variable = "v2x_libdem")
@@ -89,15 +89,14 @@ head(df)
 
 ## Comparison to `get_ert()` function from the ERT package ##
 
-The ERT package from @institute_vdeminstituteert_2023 differs from this package in important ways. The ERT package is computationally more efficient and more flexible in what constitutes an episode. In was one important source of code for this package and the work done by Seraphine Maerz, Amanda Edgell, Matthew Wilson, Sebastian Hellmeier, and Staffan I. Lindberg inspired my work for this package. However, two important drawbacks come with the ERT package. It does not enable users to search for episode of regime transformation / change other than the Electoral Democracy Score. Secondly, the ERT package does not control for overlapping uncertainty intervals (before the start of an episode and at the end of an episode). These two drawbacks are resolved in this package, while it comes with another important drawbacks: It is computationally inefficient and less flexible in terms of episode termination and tolerance for temporary stagnation. 
+The ERT package from @institute_vdeminstituteert_2023 differs from this package in important ways. The ERT package is computationally more efficient and more flexible in what constitutes an episode. It was one important source of code for this package and the work done by Seraphine Maerz, Amanda Edgell, Matthew Wilson, Sebastian Hellmeier, and Staffan I. Lindberg, and co-authors inspired my work for this package. However, two important drawbacks come with the ERT package. It does not enable users to search for episode of regime transformation / change other than the Electoral Democracy Score. Secondly, the ERT package does not control for overlapping uncertainty intervals (before the start of an episode and at the end of an episode). These drawbacks are partially resolved in this package, while it comes with another important drawbacks: It is computationally inefficient and less flexible in terms of episode termination and tolerance for temporary stagnation. 
 
-The `EpisodeR` package copied and adapted some code parts of the ERT package but does not use the most important part of the ERT package to estimate episode of change data. 
+The `EpisodeR` package copied and adapted some code parts of the ERT package but does not use the most important part of the ERT package (C++ code for finding episodes) to estimate episodes of change data. 
 
 ### Differences: ###
 
-* The ERT package use C++ language to find episodes of regime transformation, while this package use some loops in R for finding these episodes of change in an index variable. The `EpisodeR` package is computationally more inefficient compared to the C++ solution from the ERT package. 
-* The ERT package enable users to consider a specific number of years as tolerance for stasis or a gradual movement in the opposite direction. By default it is set to five years. In the `EpisodeR` package users cannot change the tolerance parameter and there is a temporary stasis on the specific variable with no further increase/decline of `start_incl` points in four years. 
-
+* The ERT package uses C++ language to find episodes of regime transformation, while this package uses some loops in R for finding these episodes of change in an index variable. The `EpisodeR` package is computationally more inefficient compared to the C++ solution from the ERT package. 
+* The ERT package enables users to consider a specific number of years as tolerance for stasis or a gradual movement in the opposite direction. By default it is set to five years. In the `EpisodeR` package users cannot change the tolerance parameter and there is a temporary stasis on the specific variable with no further increase/decline of `start_incl` points in four years. 
 
 ## References ##
 

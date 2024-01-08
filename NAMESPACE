@@ -2,7 +2,7 @@
 
 export(get_episode)
 export(get_episode_wo_CI)
-export(plot_all_episode)
+export(plot_all_episodes)
 export(plot_episodes)
 import(dplyr)
 import(ggplot2)

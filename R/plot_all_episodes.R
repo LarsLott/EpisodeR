@@ -1,6 +1,6 @@
 #'  Plotting the global number/share of countries undergoing growth and decline episodes
 #'
-#' `plot_all_episode` plots the global number or share of countries undergoing
+#' `plot_all_episodes` plots the global number or share of countries undergoing
 #' growth and decline episodes in a specific variable in a selected time frame.
 #'
 #' This function is a wrapper for ggplot() and produces a plot that shows
@@ -26,7 +26,7 @@
 #' @param year_turn  What is the amount of annual change in the opposite direction to trigger the termination of an episode?
 #' An episode may end when the case suddenly moves in the opposite direction.
 #'
-#' The terms @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
+#' The terms @param abs, @param years, @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
 #' from the ERT-package available at https://github.com/vdeminstitute/ERT. In the function below, all parts of code that was copied and adapted from the ERT package are tagged.
 #' The original ERT package enable users to set additional parameters to customize their definitions of what constitutes an episode of change. These additional parameters are
 #' the tolerance parameter, and the cum_turn parameter. In this package, episodes are considered as an episode as long as there is continued increase/decline,
@@ -36,9 +36,10 @@
 #'
 #' @import ggplot2
 #' @import dplyr
+#' @import tidyr
 #'
 #' @export
-plot_all_episode <- function(abs = T,
+plot_all_episodes <- function(abs = T,
                      years = c(1900, 2022),
                      start_incl  = 0.01,
                      cum_incl  = 0.1,
@@ -63,19 +64,20 @@ plot_all_episode <- function(abs = T,
     stop("Error: Data not available for time range")
 
   if (isTRUE(abs)) {
+    df_year <- df %>%
       dplyr::filter(between(year, min(years), max(years))) %>%
       {if(nrow(.) == 0) stop("No episodes during selected time period. No plot generated") else .} %>%
       dplyr::group_by(year) %>%
-      dplyr::summarise(increase_episodes = sum(increase_episode),
-                       decline_episodes = sum(decline_episode)) %>%
+      dplyr::summarise(increase_episodes = sum(increase_episode, na.rm=TRUE ),
+                       decline_episodes = sum(decline_episode,  na.rm=TRUE)) %>%
       tidyr::pivot_longer(cols = c(increase_episodes, decline_episodes), names_to = "ep_type", values_to = "countries")
 
   } else {
     df_year <- df %>%
       dplyr::filter(between(year, min(years), max(years))) %>%
       dplyr::group_by(year) %>%
-      dplyr::summarise(increase_episodes = sum(increase_episode) / length(unique(country_id)),
-                       decline_episodes = sum(decline_episode) / length(unique(country_id))) %>%
+      dplyr::summarise(increase_episodes = sum(increase_episode,  na.rm=TRUE) / length(unique(country_id)),
+                       decline_episodes = sum(decline_episode,  na.rm=TRUE) / length(unique(country_id))) %>%
       tidyr::pivot_longer(cols = c(increase_episodes, decline_episodes), names_to = "ep_type", values_to = "countries")
   }
 

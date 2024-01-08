@@ -27,7 +27,7 @@
 #' @param year_turn  What is the amount of annual change in the opposite direction to trigger the termination of an episode?
 #' An episode may end when the case suddenly moves in the opposite direction.
 #'
-#' The terms @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
+#' The terms @param country, @param years, @param start_incl, @param cum_incl, and @param year_turn as well as the descriptions of these terms in the function are adapted
 #' from the ERT-package available at https://github.com/vdeminstitute/ERT. In the function below, all parts of code that was copied and adapted from the ERT package are tagged.
 #' The original ERT package enable users to set additional parameters to customize their definitions of what constitutes an episode of change. These additional parameters are
 #' the tolerance parameter, and the cum_turn parameter. In this package, episodes are considered as an episode as long as there is continued increase/decline,

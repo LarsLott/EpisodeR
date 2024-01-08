@@ -1,26 +1,28 @@
 
-# get_episode
+# get_episode_wo_CI
 
-<!-- get_episode.md is generated from get_episode.Rmd. Please edit that file -->
+<!-- get_episode_wo_CI.md is generated from get_episode_wo_CI.Rmd. Please edit that file -->
 
-In the context of this package, the `get_episode()` function returns a
-data.frame in R implementing the episode approach to measure growth and
-decline episodes of a V-Dem index variable as suggested in Lott (2023).
-By doing so, this `get_episode()` function differs from the approach
-implemented in the “Episode of Regime Transformation” approach as
-published in Maerz et al. (2023) and available at V-Dem Institute
-(2023).
+In the context of this package, the `get_episode_wo_CI()` function
+returns a data.frame in R implementing the episode approach to measure
+growth and decline episodes of a V-Dem index variable as suggested in
+Lott (2023). The `get_episode_wo_CI()` function does not control for
+overlapping uncertainty intervals before the start of an episode and at
+the end of an episode. This `get_episode_wo_CI()` function differs from
+the approach implemented in the “Episode of Regime Transformation”
+approach as published in Maerz et al. (2023) and available at V-Dem
+Institute (2023).
 
-## The `get_episode()` function
+## The `get_episode_wo_CI()` function
 
-By default, `get_episode()` returns a data.frame in R implementing the
-episode approach to measure growth and decline episodes of the Academic
-Freedom Index as suggested in Lott (2023):
+By default, `get_episode_wo_CI()` returns a data.frame in R implementing
+the episode approach to measure growth and decline episodes of the
+Academic Freedom Index as suggested in Lott (2023):
 
 ``` r
 library(EpisodeR)
 
-df <- get_episode()
+df <- get_episode_wo_CI()
 
 head(df)
 #> # A tibble: 6 × 19
@@ -41,19 +43,18 @@ head(df)
 #> #   decline_episode_censored <dbl>
 ```
 
-The `get_episode` function considers measurement uncertainty in the
-measurement of the index variables. By doing so, `get_episode` function
-controls for overlapping uncertainty intervals (before the start of an
-episode and at the end of an episode). However, when not considering
-measurement uncertainty in the measurement of episodes, the cutoff point
-needs to be more demanding to reduce the risks of measurement error.
-User then should use the `get_episode_wo_CI` function from this package.
+The `get_episode_wo_CI` function does not consider measurement
+uncertainty in the measurement of the index variables. However, when not
+considering measurement uncertainty in the measurement of episodes, the
+cutoff point needs to be more demanding to reduce the risks of
+measurement error. Users who want to consider measurement uncertainty
+into account should use the `get_episode` function from this package.
 
 By using the default values, users get the data.frame presented in Lott
 (2023). However, users are also able to customize the default parameters
 and use other V-Dem index variables than the Academic Freedom Index.
 
-## Customizing the `get_episode()` function with user-specific parameters and variables
+## Customizing the `get_episode_wo_CI()` function with user-specific parameters and variables
 
 There are different ways users can customize the parameters and set
 other V-Dem index variables. Users can use the following arguments:
@@ -63,12 +64,12 @@ other V-Dem index variables. Users can use the following arguments:
 
 The `data` argument is a way to use another V-Dem dataset than the
 dataset coming with the package (latest V-Dem version). Users can also
-use `get_episode()` function with other datasets. However, the function
-was created for working with V-Dem data.
+use `get_episode_wo_CI()` function with other datasets. However, the
+function was originally created for working with V-Dem data.
 
 ``` r
 ## vdem12 must be loaded in the environment ##
-#df12 <- get_episode(data = vdem12)
+#df12 <- get_episode_wo_CI(data = vdem12)
 #head(df12)
 ```
 
@@ -77,13 +78,13 @@ was created for working with V-Dem data.
 The `start_incl` argument enables users to change the parameter that is
 necessary to trigger the start of an episode. This is the absolute value
 of the first difference. By default, this value is set to 0.01. The
-`get_episode()` function follows the potential episode as long as there
-is continued increase/decline, while allowing up to four years of
+`get_episode_wo_CI()` function follows the potential episode as long as
+there is continued increase/decline, while allowing up to four years of
 temporary stagnation, meaning no further increase/decline of
 `start_incl` points or more on the respective variable.
 
 ``` r
-df <- get_episode(start_incl = 0.02)
+df <- get_episode_wo_CI(start_incl = 0.02)
 head(df)
 #> # A tibble: 6 × 19
 #>   country_id country_text_id country_name v2xca_academ v2xca_academ_codelow
@@ -107,18 +108,18 @@ head(df)
 
 The `cum_incl` argument allows for changing the minimum amount of total
 change on the index variable necessary to constitute a growth or decline
-episode. To identify substantive growth and decline episodes, the
-`get_episode()` function calculates the total magnitude of change from
-the year before the start of an episode to the end of an episode. This
-cumulative increase/drop is set to 0.1 by default (10% of the total 0–1
-scale). It thus records only those manifest growth episodes which add up
-to a positive change of at least `cum_incl` and as manifest decline
-episodes only those which add up to a negative change of at least
-`cum_incl`.
+episode? To identify substantive growth and decline episodes,
+`get_episode_wo_CI()` function calculates the total magnitude of change
+from the year before the start of an episode to the end of an episode.
+This cumulative increase/drop is set to 0.1 by default (10% of the total
+0–1 scale). It thus records only those manifest growth episodes which
+add up to a positive change of at least `cum_incl` and as manifest
+decline episodes only those which add up to a negative change of at
+least `cum_incl`.
 
 ``` r
 ## setting the cumulative inclusion parameter to 0.12 (12% of the total 0-1 scale)
-df <- get_episode(cum_incl = 0.12)
+df <- get_episode_wo_CI(cum_incl = 0.12)
 head(df)
 #> # A tibble: 6 × 19
 #>   country_id country_text_id country_name v2xca_academ v2xca_academ_codelow
@@ -140,15 +141,15 @@ head(df)
 
 ### `year_turn`: Set the parameter that is necessary to trigger the end of an episode
 
-The `year_turn` argument enables users to change the parameter that is
+The `year_turn` argument enable users to change the parameter that is
 necessary to trigger the end of an episode. By default, this value is
-set to 0.03. The `get_episode()` function terminates an episode when
-there is a temporary stagnation on the AFI with no further
+set to 0.03. The `get_episode_wo_CI()` function terminates an episode
+when there is a temporary stagnation on the AFI with no further
 increase/decline of `start_incl` points in four years or when the AFI
 decreases/increases by `year_turn` points, from one year to the next.
 
 ``` r
-df <- get_episode(year_turn = 0.05)
+df <- get_episode_wo_CI(year_turn = 0.05)
 head(df)
 #> # A tibble: 6 × 19
 #>   country_id country_text_id country_name v2xca_academ v2xca_academ_codelow
@@ -178,7 +179,7 @@ and 1, even it is possible to use other variable from the V-Dem
 universe.
 
 ``` r
-df <- get_episode(variable = "v2x_libdem")
+df <- get_episode_wo_CI(variable = "v2x_libdem")
 head(df)
 #> # A tibble: 6 × 19
 #>   country_id country_text_id country_name v2x_libdem v2x_libdem_codelow
