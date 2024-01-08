@@ -37,6 +37,7 @@
 #'
 #' @import ggplot2
 #' @import dplyr
+#' @import tidyr
 #'
 #' @export
 plot_episodes <- function(years = c(1900, 2022),
@@ -76,7 +77,7 @@ plot_episodes <- function(years = c(1900, 2022),
   if(max(years) < min(df %>% filter(country_name==country) %>% pull(year)) | max(years)>max(df %>% filter(country_name==country) %>% pull(year)))
     stop("Error: Data not available for time range")
 
-  year <- country_name <- increase_episode <- decline_episode <- overlap_df <- variable <-
+  year <- country_name <- increase_episode <- decline_episode <- overlap_df <-
     ep_type <- episode <- vdem <- increase_episode_start_year <-increase_episode_end_year <-
     decline_episode_start_year <- decline_episode_end_year <- decline_episode_id <- increase_episode_id <- countries <- NULL
 
