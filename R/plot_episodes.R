@@ -40,7 +40,7 @@
 #' @import tidyr
 #'
 #' @export
-plot_episodes <- function(years = c(1900, 2022),
+plot_episodes <- function(years = c(1900, 2023),
                           country = c("Sweden"),
                           start_incl  = 0.01,
                           cum_incl  = 0.1,

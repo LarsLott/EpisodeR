@@ -1,4 +1,4 @@
-## copid and adapted from ERT package ##
+## copied and adapted from ERT package ##
 
 # this script is about the yearly updating process of the package
 # (vdem, codebook)
@@ -10,7 +10,7 @@
 # load the new vdem dataset and save it as RData in the package folder "data"
 # vdem
 
-vdem <- readRDS("C:/Users/ba72loko/projects/data/V-Dem 13 Final/V-Dem-CY-FullOthers_R_v13/V-Dem-CY-Full+Others-v13.rds")
+vdem <- readRDS("W:/data/vdem14/V-Dem-CY-Full+Others-v14.rds")
 
 save("vdem", file = "data/vdem.RData", compress = "xz")
 

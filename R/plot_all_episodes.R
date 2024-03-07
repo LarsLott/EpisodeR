@@ -40,7 +40,7 @@
 #'
 #' @export
 plot_all_episodes <- function(abs = T,
-                     years = c(1900, 2022),
+                     years = c(1900, 2023),
                      start_incl  = 0.01,
                      cum_incl  = 0.1,
                      year_turn = 0.03,

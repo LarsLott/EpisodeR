@@ -5,7 +5,7 @@
 \title{Plot episodes of variable growth and decline episodes for a specific country}
 \usage{
 plot_episodes(
-  years = c(1900, 2022),
+  years = c(1900, 2023),
   country = c("Sweden"),
   start_incl = 0.01,
   cum_incl = 0.1,

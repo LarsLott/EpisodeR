@@ -33,7 +33,7 @@ The work of the Episodes of Regime Transformation team has published as @maerz_e
 
 #### Load, explore, and work the episodes data sets ####
 * Note: for non-R users I provide the *Academic Freedom Growth and Decline Episodes data set* in this GitHub project as [.csv](https://github.com/LarsLott/EpisodeR/tree/master/inst) files. 
-* RELEASE: Academic Freedom Growth and Decline Episodes data set 13.0 is based on the V-Dem dataset v13. In the following years, updated *Academic Freedom Growth and Decline Episodes data set* will be provided once a year when updated V-Dem is published. 
+* RELEASE: Academic Freedom Growth and Decline Episodes data set 14.0 is based on the V-Dem dataset v14. In the following years, updated *Academic Freedom Growth and Decline Episodes data set* will be provided once a year when updated V-Dem is published. 
 
 #### Functions ####
 * `get_episode`: Identify episodes of growth and decline in an index variable in which this index variable systematically grows or declines in respective and connected country-years. This functions controls for overlapping uncertainty intervals, "var_codelow" and "var_codehigh", as suggested by @pelke_conceptualizing_2021. A growth episode in an index variable is defined as a cumulative
