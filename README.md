@@ -46,8 +46,8 @@ Index](https://academic-freedom-index.net/) project.
 - Note: for non-R users I provide the *Academic Freedom Growth and
   Decline Episodes data set* in this GitHub project as
   [.csv](https://github.com/LarsLott/EpisodeR/tree/master/inst) files.
-- RELEASE: Academic Freedom Growth and Decline Episodes data set 14.0 is
-  based on the V-Dem dataset v14. In the following years, updated
+- RELEASE: Academic Freedom Growth and Decline Episodes data set 15.0 is
+  based on the V-Dem dataset v15. In the following years, updated
   *Academic Freedom Growth and Decline Episodes data set* will be
   provided once a year when updated V-Dem is published.
 
@@ -98,7 +98,7 @@ temporary stagnation.
 The `EpisodeR` package copied and adapted some code parts of the ERT
 package but does not use the most important part of the ERT package (C++
 code for finding episodes) to estimate episodes of change data. It
-differs most substanially here:
+differs most substantially here:
 
 - The ERT package uses C++ language to find episodes of regime
   transformation, while this package uses some loops in R for finding
@@ -161,7 +161,8 @@ repository.
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-boese_how_2021" class="csl-entry">
 

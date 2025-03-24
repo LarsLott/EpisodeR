@@ -33,7 +33,7 @@ The work of the Episodes of Regime Transformation team has published as @maerz_e
 
 #### Load, explore, and work the episodes data sets ####
 * Note: for non-R users I provide the *Academic Freedom Growth and Decline Episodes data set* in this GitHub project as [.csv](https://github.com/LarsLott/EpisodeR/tree/master/inst) files. 
-* RELEASE: Academic Freedom Growth and Decline Episodes data set 14.0 is based on the V-Dem dataset v14. In the following years, updated *Academic Freedom Growth and Decline Episodes data set* will be provided once a year when updated V-Dem is published. 
+* RELEASE: Academic Freedom Growth and Decline Episodes data set 15.0 is based on the V-Dem dataset v15. In the following years, updated *Academic Freedom Growth and Decline Episodes data set* will be provided once a year when updated V-Dem is published. 
 
 #### Functions ####
 * `get_episode`: Identify episodes of growth and decline in an index variable in which this index variable systematically grows or declines in respective and connected country-years. This functions controls for overlapping uncertainty intervals, "var_codelow" and "var_codehigh", as suggested by @pelke_conceptualizing_2021. A growth episode in an index variable is defined as a cumulative
@@ -51,7 +51,7 @@ The [ERT package](https://github.com/vdeminstitute/ERT) differs from this packag
 
 These drawbacks are partially resolved in this package, while it comes with other important drawbacks: It is computationally inefficient and less flexible in terms of episode termination and tolerance for temporary stagnation. 
 
-The `EpisodeR` package copied and adapted some code parts of the ERT package but does not use the most important part of the ERT package (C++ code for finding episodes) to estimate episodes of change data. It differs most substanially here: 
+The `EpisodeR` package copied and adapted some code parts of the ERT package but does not use the most important part of the ERT package (C++ code for finding episodes) to estimate episodes of change data. It differs most substantially here: 
 
 * The ERT package uses C++ language to find episodes of regime transformation, while this package uses some loops in R for finding these episodes of change in an index variable. The `EpisodeR` package is computationally more inefficient compared to the C++ solution from the ERT package. To find episodes of change in a variable, this package uses code originally used by @pelke_conceptualizing_2021. 
 * The ERT package enables users to consider a specific number of years as tolerance for stasis or a gradual movement in the opposite direction. By default it is set to **five years**. In the `EpisodeR` package users cannot change the tolerance parameter and there is a temporary stasis on the specific variable with no further increase/decline of `start_incl` points in **four years**. 
