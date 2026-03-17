@@ -46,8 +46,8 @@ Index](https://academic-freedom-index.net/) project.
 - Note: for non-R users I provide the *Academic Freedom Growth and
   Decline Episodes data set* in this GitHub project as
   [.csv](https://github.com/LarsLott/EpisodeR/tree/master/inst) files.
-- RELEASE: Academic Freedom Growth and Decline Episodes data set 15.0 is
-  based on the V-Dem dataset v15. In the following years, updated
+- RELEASE: Academic Freedom Growth and Decline Episodes data set 16.0 is
+  based on the V-Dem dataset v16. In the following years, updated
   *Academic Freedom Growth and Decline Episodes data set* will be
   provided once a year when updated V-Dem is published.
 

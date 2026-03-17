@@ -8,7 +8,7 @@ NULL
 #'
 #' @format A data frame.
 #'
-#' @references Coppedge, Michael, John Gerring, Carl Henrik Knutsen, Staffan I. Lindberg, Jan Teorell, David Altman, Michael Bernhard, et al. “V-Dem Dataset V14.” Varieties of Democracy (V-Dem) Project, 2024. https://doi.org/10.23696/VDEMDS24.
+#' @references Coppedge, Michael, John Gerring, Carl Henrik Knutsen, Staffan I. Lindberg, Jan Teorell, David Altman, Michael Bernhard, et al. “V-Dem Dataset V16.” Varieties of Democracy (V-Dem) Project, 2026. https://doi.org/10.23696/vdemds26.
 #'
 #' @source https://www.v-dem.net
 #'

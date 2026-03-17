@@ -10,7 +10,7 @@
 # load the new vdem dataset and save it as RData in the package folder "data"
 # vdem
 
-vdem <- readRDS("P:/PIPM/7. VWS Projekt Academic Freedom Index/Annual Updates/Annual Update 2025 files/V-Dem-CY-Full+Others-v15.rds")
+vdem <- readRDS("P:/PIPM/7. VWS Projekt Academic Freedom Index/data/V-Dem_v16/V-Dem-CY-Full+Others-v16.rds")
 
 save("vdem", file = "data/vdem.RData", compress = "xz")
 
